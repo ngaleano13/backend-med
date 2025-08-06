@@ -39,6 +39,25 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(respuesta, HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(UsuarioException.class)
+    public ResponseEntity<Map<String, Object>> manejarUsuarioException(UsuarioException ex) {
+        Map<String, Object> respuesta = new HashMap<>();
+        respuesta.put("error", ex.getMessage());
+        respuesta.put("fecha", LocalDateTime.now());
+        respuesta.put("codigo", HttpStatus.NOT_FOUND.value());
+
+        return new ResponseEntity<>(respuesta, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(TurnoException.class)
+    public ResponseEntity<Map<String, Object>> manejarTurnoException(TurnoException ex) {
+        Map<String, Object> respuesta = new HashMap<>();
+        respuesta.put("error", ex.getMessage());
+        respuesta.put("fecha", LocalDateTime.now());
+        respuesta.put("codigo", HttpStatus.BAD_REQUEST.value());
+
+        return new ResponseEntity<>(respuesta, HttpStatus.BAD_REQUEST);
+    }
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Map<String, Object>> manejarExcepcionGeneral(Exception ex) {
