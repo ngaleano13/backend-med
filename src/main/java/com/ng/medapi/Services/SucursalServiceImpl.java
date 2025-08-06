@@ -14,32 +14,42 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class SucursalServiceImpl implements SucursalService {
 
-    private SucursalRepository repo;
+    private SucursalRepository sucursalRepo;
 
+    @Override
     public List<Sucursal> listarSucursales() {
-        return repo.findAll();
+        return sucursalRepo.findAll();
     }
 
+    @Override
     public Sucursal buscarPorId(Long id) {
-        return repo.findById(id).orElseThrow(
+        return sucursalRepo.findById(id).orElseThrow(
                 () -> new SucursalException("Sucursal con el id: " + id + " no encontrada"));
     }
 
+    @Override
     public List<Sucursal> buscarPorNombre(String nombre) {
         if (nombre == null || nombre.isBlank()) {
-            throw new SucursalException("El nombre no puede estar vacio");
+            throw new SucursalException("El nombre no puede estar vacío");
         }
 
-        return repo.findByNombreContainingIgnoreCase(nombre);
+        List<Sucursal> sucursales = sucursalRepo.findByNombreContainingIgnoreCase(nombre);
+
+        if (sucursales.isEmpty()) {
+            throw new SucursalException("No se encontraron sucursales con ese nombre");
+        }
+
+        return sucursales;
     }
 
     @Override
     public Sucursal crearSucursal(Sucursal sucursal) {
-        return repo.save(sucursal);
+        return sucursalRepo.save(sucursal);
     }
 
+    @Override
     public Sucursal actualizarSucursal(Long id, Sucursal sucursalActualizada) {
-        Sucursal existente = repo.findById(id).orElseThrow(
+        Sucursal existente = sucursalRepo.findById(id).orElseThrow(
                 () -> new SucursalException("Sucursal con el id: " + id + " no encontrada"));
 
         existente.setNombre(sucursalActualizada.getNombre());
@@ -48,14 +58,15 @@ public class SucursalServiceImpl implements SucursalService {
         existente.setLatitud(sucursalActualizada.getLatitud());
         existente.setLongitud(sucursalActualizada.getLongitud());
 
-        return repo.save(existente);
+        return sucursalRepo.save(existente);
     }
 
+    @Override
     public void eliminarSucursal(Long id) {
-        if (!repo.existsById(id)) {
+        if (!sucursalRepo.existsById(id)) {
             throw new SucursalException("Sucursal con el id: " + id + " no encontrada");
         }
-        repo.deleteById(id);
+        sucursalRepo.deleteById(id);
     }
 
 }
