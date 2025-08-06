@@ -3,6 +3,7 @@ package com.ng.medapi.Controllers;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,10 +24,10 @@ import lombok.AllArgsConstructor;
 @RequestMapping("/api/sucursales")
 @AllArgsConstructor
 public class SucursalController {
-    
+
     private final SucursalService service;
 
-      @GetMapping
+    @GetMapping
     public ResponseEntity<List<Sucursal>> listarTodas() {
         return ResponseEntity.ok(service.listarSucursales());
     }
@@ -42,18 +43,21 @@ public class SucursalController {
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Sucursal> crear(@RequestBody @Valid Sucursal sucursal) {
         Sucursal creada = service.crearSucursal(sucursal);
         return ResponseEntity.status(201).body(creada);
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Sucursal> actualizar(@PathVariable Long id, @RequestBody @Valid Sucursal sucursal) {
         Sucursal actualizada = service.actualizarSucursal(id, sucursal);
         return ResponseEntity.ok(actualizada);
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> eliminar(@PathVariable Long id) {
         service.eliminarSucursal(id);
         return ResponseEntity.noContent().build();
