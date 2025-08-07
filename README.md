@@ -18,7 +18,7 @@ El sistema está diseñado para integrarse con un **frontend en React**, que pro
 
 * **GET /** - Listar todas las sucursales *(disponible para cualquier usuario)*
 * **GET /{id}** - Buscar sucursal por ID *(público)*
-* **GET /buscar?nombre=xxx** - Buscar sucursales por nombre *(público)*
+* **GET /buscar?nombre=???** - Buscar sucursales por nombre *(público)*
 * **POST /** - Crear sucursal *(solo ADMIN)*
 * **PUT /{id}** - Actualizar sucursal *(solo ADMIN)*
 * **DELETE /{id}** - Eliminar sucursal *(solo ADMIN)*
@@ -29,12 +29,12 @@ El sistema está diseñado para integrarse con un **frontend en React**, que pro
 * **GET /perfil** - Ver perfil propio *(requiere login)*
 * **PUT /{id}** - Actualizar perfil propio *(requiere login)*
 
-### Admin Usuarios (`/api/admin`)
+### Admin Usuarios (`/api/admin/usuarios`)
 
-* **GET /usuarios** - Listar todos los usuarios *(solo ADMIN)*
-* **GET /usuarios/{id}** - Ver usuario por ID *(solo ADMIN)*
-* **PUT /usuarios/{id}** - Actualizar cualquier usuario *(solo ADMIN)*
-* **DELETE /usuarios/{id}** - Eliminar usuario *(solo ADMIN)*
+* **GET /** - Listar todos los usuarios *(solo ADMIN)*
+* **GET /{id}** - Ver usuario por ID *(solo ADMIN)*
+* **PUT /{id}** - Actualizar el rol del Usuario *(solo ADMIN)*
+* **DELETE /{id}** - Eliminar usuario *(solo ADMIN)*
 
 ---
 
