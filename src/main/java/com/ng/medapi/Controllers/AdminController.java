@@ -17,19 +17,19 @@ import com.ng.medapi.Services.UsuarioService;
 import lombok.AllArgsConstructor;
 
 @RestController
-@RequestMapping("/api/admin")
+@RequestMapping("/api/admin/usuarios")
 @AllArgsConstructor
 public class AdminController {
 
     private final UsuarioService usuarioService;
 
-    @GetMapping("/usuarios")
+    @GetMapping
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<List<Usuario>> listarUsuarios() {
         return ResponseEntity.ok(usuarioService.listarUsuarios());
     }
 
-    @GetMapping("/usuarios/{id}")
+    @GetMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Usuario> buscarPorId(@PathVariable Long id) {
         return ResponseEntity.ok(usuarioService.buscarPorId(id));
