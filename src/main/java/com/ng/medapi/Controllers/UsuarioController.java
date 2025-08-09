@@ -5,7 +5,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ng.medapi.Dtos.UsuarioDTO;
+import com.ng.medapi.Dtos.UsuarioUpdateDTO;
 import com.ng.medapi.Models.Usuario;
 import com.ng.medapi.Services.UsuarioService;
 import com.ng.medapi.Utils.UsuarioMapper;
@@ -41,11 +41,15 @@ public class UsuarioController {
         return ResponseEntity.ok(dto);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/actualizar")
     @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
-    public ResponseEntity<Usuario> actualizarUsuario(@PathVariable Long id, @RequestBody Usuario usuario) {
-        Usuario actualizado = usuarioService.actualizarUsuario(id, usuario);
-        return ResponseEntity.ok(actualizado);
+    public ResponseEntity<UsuarioDTO> actualizarPerfil(
+            @AuthenticationPrincipal UserDetails userDetails,
+            @RequestBody UsuarioUpdateDTO usuarioUpdateDTO) {
+
+        Usuario actualizado = usuarioService.actualizarUsuario(userDetails.getUsername(), usuarioUpdateDTO);
+        UsuarioDTO dto = usuarioMapper.toDTO(actualizado);
+        return ResponseEntity.ok(dto);
     }
 
 }
